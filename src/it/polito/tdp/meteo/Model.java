@@ -1,5 +1,6 @@
 package it.polito.tdp.meteo;
 
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,11 +31,11 @@ public class Model {
 			cities.add(new Citta(s));
 	}
 
-	public String getUmiditaMedia(int mese) {
+	public String getUmiditaMedia(Month mese) {
 		return meteoDAO.getAvgRilevamentiMese(mese);
 	}
 
-	public String trovaSequenza(int mese) {
+	public String trovaSequenza(Month mese) {
 		
 		this.minorPunteggio = Double.MAX_VALUE;
 		this.soluzione = new ArrayList <> ();
@@ -43,7 +44,7 @@ public class Model {
 		
 		// reset dei rilevamenti e del contatore delle città
 		for (Citta c : cities) {
-			c.setRilevamenti(this.meteoDAO.getAllRilevamentiLocalitaMese(mese, c.getNome()));
+			c.setRilevamenti(this.meteoDAO.getAllRilevamentiLocalitaMese(mese.getValue(), c.getNome()));
 			c.setCounter(0);
 		}
 		

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,7 +72,7 @@ public class MeteoDAO {
 		return rilevamenti;
 	}
 
-	public String getAvgRilevamentiMese(int mese) {
+	public String getAvgRilevamentiMese(Month mese) {
 
 		final String sql = "SELECT Localita, AVG (Umidita) as avgUmidita " + 
 						   "FROM situazione " + 
@@ -81,10 +82,13 @@ public class MeteoDAO {
 		try {
 			Connection conn = DBConnect.getInstance().getConnection();
 			PreparedStatement st = conn.prepareStatement(sql);
-			st.setInt(1, mese);
+			// si accede al mese come int attraverso il metodo getValue()
+			st.setInt(1, mese.getValue());
 			ResultSet rs = st.executeQuery();
 
 			StringBuilder result = new StringBuilder(); 
+			result.append("Umidità media nel mese di " + mese + "\n");
+			
 			while (rs.next()) {
 
 // UTILE PER GESTIRE LE DATE				

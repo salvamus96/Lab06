@@ -1,6 +1,7 @@
 package it.polito.tdp.meteo;
 
 import java.net.URL;
+import java.time.Month;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -20,7 +21,7 @@ public class MeteoController {
 	private URL location;
 
 	@FXML
-	private ChoiceBox<Integer> boxMese;
+	private ChoiceBox<Month> boxMese;
 
 	@FXML
 	private Button btnCalcola;
@@ -38,8 +39,10 @@ public class MeteoController {
 
 		if (this.boxMese.getValue() == null)
 			this.txtResult.setText("Selezionare un mese!");
-		else
-			this.txtResult.setText(model.trovaSequenza(this.boxMese.getValue()));
+		else {
+			this.txtResult.appendText("Sequenza ottima per il mese " + this.boxMese.getValue() + "\n");
+			this.txtResult.appendText(model.trovaSequenza(this.boxMese.getValue()));
+		}
 	}
 
 
@@ -64,9 +67,10 @@ public class MeteoController {
 	
 	public void setModel(Model model) {
 		this.model = model;
-		
+				
+// si usa il metodo of per accedere al mese relativo al numero intero passato come parametro
 		for (int i = 1; i <= 12; i++)
-			this.boxMese.getItems().add(i);
+			this.boxMese.getItems().add(Month.of(i));
 		
 	}
 
